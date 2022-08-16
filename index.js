@@ -1,8 +1,16 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const controller = require('./controllers/controler');
+const controller = require("./controllers/controler");
+require("dotenv").config();
+const morgan = require("morgan");
 
-const port = 3000;
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+const port = process.env.PORT;
+
+app.use(morgan("dev"));
+app.set("view engine", "ejs");
 
 controller(app);
 
