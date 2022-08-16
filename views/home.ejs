@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+</head>
+<body>
+    <form action="/all" method="get">
+        <input type="submit" value="get">
+    </form>
+    <p>insert data</p>
+    <form action="/add" method="post">
+        <input type="text" name="fname" placeholder="Firstname" required><br>
+        <input type="text" name="lname" placeholder="Lastname" required>
+        <input type="submit" value="submit">
+    </form>
+
+    <p>delete data</p>
+    <form action="/delete" method="post">
+        <input type="text" name="delfname" placeholder="Firstname" ><br>
+        <input type="text" name="dellname" placeholder="Lastname" >
+        <input type="submit" value="submit">
+    </form>
+
+    <p>update data</p>
+    <form action="/update" method="post">
+        <strong>old data</strong>
+        <input type="text" name="oldVal" placeholder="Firstname">
+        <input type="text" name="oldVal2" placeholder="Lastname">
+        <br>
+        <strong>new data</strong>
+        <input type="text" name="newVal" placeholder="Firstname">
+        <input type="text" name="newVal2" placeholder="Lastname">
+        <input type="submit" value="submit">
+    </form>
+</body>
+</html>
