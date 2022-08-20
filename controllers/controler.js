@@ -1,5 +1,6 @@
 const { Pool } = require("pg");
 const pool = new Pool();
+const Joi = require('joi');
 
 module.exports = (app) => {
   app.get("/", (req, res) => {
@@ -22,16 +23,32 @@ module.exports = (app) => {
   });
 
   app.post("/add", (req, res) => {
-    try {
-      pool.connect(async (error, client, release) => {
-        let resp = await client.query(
-          `INSERT INTO test (firstname,lastname) VALUES ('${req.body.fname}','${req.body.lname}') `
-        );
-        res.redirect("/all");
-      });
-    } catch (error) {
-      console.log(error);
+
+    
+
+     const schema = 
+      Joi.object({
+      fname: Joi.string().min(1).required(),
+      lname: Joi.string().min(1).required()
+    });
+    
+    const result = schema.validate(req.body);
+
+    if (result.error) {
+      res.status(404).send(result.error.details[0].message);
+      return;
     }
+
+     try {
+        pool.connect(async (error, client, release) => {
+          let resp = await client.query(
+            `INSERT INTO test (firstname,lastname) VALUES ('${req.body.fname}','${req.body.lname}') `
+          );
+          res.redirect("/all");
+        });
+      } catch (error) {
+        console.log(error);
+      }
   });
 
   app.post("/delete", (req, res) => {
