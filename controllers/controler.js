@@ -22,6 +22,18 @@ module.exports = (app) => {
     }
   });
 
+  app.post("/all/user/", (req,res) => {
+    try {
+      pool.connect(async (error, client, release) => {
+        let resp = await client.query(`SELECT * FROM test WHERE id = ${req.body.id}`);
+        res.render('search-user', {searchUser: resp.rows});
+        console.log(resp.rows);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
   app.post("/add", (req, res) => {
 
     const {error} = validateName(req.body);
