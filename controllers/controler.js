@@ -24,18 +24,10 @@ module.exports = (app) => {
 
   app.post("/add", (req, res) => {
 
-    
+    const {error} = validateName(req.body);
 
-     const schema = 
-      Joi.object({
-      fname: Joi.string().min(1).required(),
-      lname: Joi.string().min(1).required()
-    });
-    
-    const result = schema.validate(req.body);
-
-    if (result.error) {
-      res.status(404).send(result.error.details[0].message);
+    if (error) {
+      res.status(404).send(error.details[0].message);
       return;
     }
 
@@ -50,6 +42,15 @@ module.exports = (app) => {
         console.log(error);
       }
   });
+
+  const validateName = (name) => {
+    const schema = Joi.object({
+      fname: Joi.string().min(1).required(),
+      lname: Joi.string().min(1).required()
+    });
+
+   return schema.validate(name);
+  }
 
   app.post("/delete", (req, res) => {
     try {
