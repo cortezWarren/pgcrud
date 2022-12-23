@@ -1,6 +1,7 @@
 const { Pool } = require("pg");
 const pool = new Pool();
 const Joi = require('joi');
+const {queries: q} = require('../variables/queries');
 
 module.exports = (app) => {
   app.get("/", (req, res) => {
@@ -25,7 +26,7 @@ module.exports = (app) => {
   app.post("/all/user/", (req,res) => {
     try {
       pool.connect(async (error, client, release) => {
-        let resp = await client.query(`SELECT * FROM test WHERE id = ${req.body.id}`);
+        let resp = await client.query(q, [req.body.id]);
         res.render('search-user', {searchUser: resp.rows});
         console.log(resp.rows);
       });
